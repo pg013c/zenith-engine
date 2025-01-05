@@ -1,0 +1,46 @@
+version: '3'
+
+services:
+
+  composer:
+    image: prooph/composer:8.2
+    user: "$UID:$GID"
+    volumes:
+      - ./:/app
+
+  nginx:
+    image: nginx:latest
+    container_name: zenith-nginx
+#    user: "$UID:$GID"
+    ports:
+      - '8080:80'
+    volumes:
+      - ./:/var/www
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    links:
+      - php-fpm
+
+  php-fpm:
+    build:
+      context: docker/phpfpm
+    container_name: zenith-phpfpm
+    user: "$UID:$GID"
+    volumes:
+      - ./:/var/www
+    restart: "no"
+
+  mariadb:
+    image: mariadb:10.5.8
+    container_name: zenith-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: "rootpassword"
+    restart: "no"
+
+  console:
+    build:
+      context: docker/phpfpm
+    entrypoint: bin/console
+    user: "$UID:$GID"
+    volumes:
+      - ./:/var/www
+    restart: "no"
