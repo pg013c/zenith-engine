@@ -11,25 +11,39 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class AppFixtures extends Fixture
 {
+    private array $users = [
+        [
+            'email' => 'admin@zenith.com',
+            'password' => 'admin1',
+            'roles' => ['ROLE_ADMIN'],
+        ],
+        [
+            'email' => 'user@zenith.com',
+            'password' => 'user1',
+            'roles' => ['ROLE_USER'],
+        ],
+    ];
+
     public function __construct(private readonly UserPasswordHasherInterface $passwordHasher)
     {
     }
 
     public function load(ObjectManager $manager): void
     {
-        $user = new User();
-        $user->setEmail('user@zenith.com');
+        foreach ($this->users as $userData) {
+            $user = new User();
+            $user->setEmail($userData['email']);
 
-        $plaintextPassword = 'password';
+            $hashedPassword = $this->passwordHasher->hashPassword(
+                $user,
+                $userData['password']
+            );
+            $user->setPassword($hashedPassword);
+            $user->setRoles($userData['roles']);
 
-        // hash the password (based on the security.yaml config for the $user class)
-        $hashedPassword = $this->passwordHasher->hashPassword(
-            $user,
-            $plaintextPassword
-        );
-        $user->setPassword($hashedPassword);
+            $manager->persist($user);
+        }
 
-        $manager->persist($user);
 
         $manager->flush();
     }
