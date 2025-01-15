@@ -24,7 +24,7 @@ class SecurityController extends AbstractController
 //        var_dump($error);
 //        die;
 
-        return $this->render('security/login.html.twig', [
+        return $this->render('public/security/login.html.twig', [
             'last_username' => $lastUsername,
             'error' => $error,
         ]);

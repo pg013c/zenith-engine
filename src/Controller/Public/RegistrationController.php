@@ -28,6 +28,6 @@ final class RegistrationController extends AbstractController
             $this->userRegistrationCommandHandler->handle($userRegistrationCommand);
         }
 
-        return $this->render('registration/register.html.twig');
+        return $this->render('public/registration/register.html.twig');
     }
 }

@@ -1,0 +1,56 @@
+{% extends 'public/layout.html.twig' %}
+
+{% block content %}
+    <div class="container mt-4">
+        <div class="row justify-content-center">
+            <div class="col-xl-5 col-md-8">
+                <h1>Login</h1>
+                {% if error %}
+                    <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                {% endif %}
+                <form action="{{ path('security_login') }}" method="post" class="bg-white rounded shadow-5-strong p-5">
+                    <!-- Email input -->
+                    <div class="form-outline mb-4" data-mdb-input-init>
+                        <input type="email" id="username" name="_username" value="{{ last_username }}" required
+                               class="form-control"/>
+                        <label class="form-label" for="username">Email address</label>
+                    </div>
+
+                    <!-- Password input -->
+                    <div class="form-outline mb-4" data-mdb-input-init>
+                        <input type="password" id="password" name="_password" required class="form-control"/>
+                        <label class="form-label" for="password">Password</label>
+                    </div>
+
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+                    <!-- 2 column grid layout for inline styling -->
+                    <div class="row mb-4">
+                        <div class="col">
+                            <!-- Checkbox -->
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="form1Example3" checked/>
+                                <label class="form-check-label" for="form1Example3">
+                                    Remember me
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-4">
+                        <div class="col">
+                            <a href="#!">Forgot password?</a>
+                        </div>
+                    </div>
+                    <div class="row mb-4">
+                        <div class="col">
+                            Not have account? <a href="{{ url('registration_register') }}">Register</a>
+                        </div>
+                    </div>
+
+                    <!-- Submit button -->
+                    <button type="submit" class="btn btn-primary btn-block" data-mdb-ripple-init>Sign in</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
