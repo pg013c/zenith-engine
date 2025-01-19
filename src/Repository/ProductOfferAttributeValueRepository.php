@@ -4,22 +4,22 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
-use App\Entity\ProductOffer;
+use App\Entity\ProductOfferAttributeValue;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<ProductOffer>
+ * @extends ServiceEntityRepository<ProductOfferAttributeValue>
  */
-class ProductOfferRepository extends ServiceEntityRepository
+class ProductOfferAttributeValueRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, ProductOffer::class);
+        parent::__construct($registry, ProductOfferAttributeValue::class);
     }
 
     //    /**
-    //     * @return ProductOffer[] Returns an array of ProductOffer objects
+    //     * @return ProductOfferAttributeValue[] Returns an array of ProductOfferAttributeValue objects
     //     */
     //    public function findByExampleField($value): array
     //    {
@@ -33,7 +33,7 @@ class ProductOfferRepository extends ServiceEntityRepository
     //        ;
     //    }
 
-    //    public function findOneBySomeField($value): ?ProductOffer
+    //    public function findOneBySomeField($value): ?ProductOfferAttributeValue
     //    {
     //        return $this->createQueryBuilder('p')
     //            ->andWhere('p.exampleField = :val')

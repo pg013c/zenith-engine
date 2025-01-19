@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Public;
+namespace App\Controller\Front;
 
 use App\CommandHandler\UserRegistrationCommandHandler;
 use App\Factory\Command\UserRegistrationCommandFactory;

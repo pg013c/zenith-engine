@@ -1,8 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use App\Repository\ProductOfferRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ProductOfferRepository::class)]
@@ -15,6 +19,17 @@ class ProductOffer
 
     #[ORM\Column(length: 255)]
     private ?string $title = null;
+
+    /**
+     * @var Collection<int, ProductOfferAttributeValue>
+     */
+    #[ORM\OneToMany(targetEntity: ProductOfferAttributeValue::class, mappedBy: 'productOffer')]
+    private Collection $productOfferAttributeValues;
+
+    public function __construct()
+    {
+        $this->productOfferAttributeValues = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -29,6 +44,36 @@ class ProductOffer
     public function setTitle(string $title): static
     {
         $this->title = $title;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ProductOfferAttributeValue>
+     */
+    public function getProductOfferAttributeValues(): Collection
+    {
+        return $this->productOfferAttributeValues;
+    }
+
+    public function addProductOfferAttributeValue(ProductOfferAttributeValue $productOfferAttributeValue): static
+    {
+        if (!$this->productOfferAttributeValues->contains($productOfferAttributeValue)) {
+            $this->productOfferAttributeValues->add($productOfferAttributeValue);
+            $productOfferAttributeValue->setProductOffer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProductOfferAttributeValue(ProductOfferAttributeValue $productOfferAttributeValue): static
+    {
+        if ($this->productOfferAttributeValues->removeElement($productOfferAttributeValue)) {
+            // set the owning side to null (unless already changed)
+            if ($productOfferAttributeValue->getProductOffer() === $this) {
+                $productOfferAttributeValue->setProductOffer(null);
+            }
+        }
 
         return $this;
     }

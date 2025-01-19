@@ -1,8 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller\Admin;
 
+use App\Entity\ProductAttribute;
+use App\Entity\ProductCategory;
 use App\Entity\ProductOffer;
+use App\Entity\ProductTemplate;
+use App\Entity\ProductValue;
 use App\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
@@ -45,8 +51,20 @@ class AdminDashboardController extends AbstractDashboardController
     public function configureMenuItems(): iterable
     {
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
-        yield MenuItem::linkToCrud('Product offers', 'fas fa-list', ProductOffer::class);
+
+        yield MenuItem::section('Clients');
         yield MenuItem::linkToCrud('Users', 'fas fa-list', User::class);
+
+        yield MenuItem::section('Store');
+        yield MenuItem::linkToCrud('Product offers', 'fas fa-list', ProductOffer::class);
+
+        yield MenuItem::section('Configuration');
+        yield MenuItem::linkToCrud('Product Categories', 'fas fa-list', ProductCategory::class);
+        yield MenuItem::linkToCrud('Product Templates', 'fas fa-list', ProductTemplate::class);
+        yield MenuItem::linkToCrud('Product Attributes', 'fas fa-list', ProductAttribute::class);
+        yield MenuItem::linkToCrud('Product Values', 'fas fa-list', ProductValue::class);
+
+        yield MenuItem::section('...');
         yield MenuItem::linkToLogout('Logout', 'fa fa-exit');
     }
 }

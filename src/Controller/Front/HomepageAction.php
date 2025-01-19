@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Public;
+namespace App\Controller\Front;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-class FrontController extends AbstractController
+class HomepageAction extends AbstractController
 {
     #[Route('/', name: 'front_home')]
-    public function number(): Response
+    public function __invoke(): Response
     {
         return $this->render('public/front/home.html.twig');
     }
