@@ -8,9 +8,6 @@ use App\Entity\ProductValue;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
-/**
- * @extends ServiceEntityRepository<ProductValue>
- */
 class ProductValueRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
@@ -18,28 +15,20 @@ class ProductValueRepository extends ServiceEntityRepository
         parent::__construct($registry, ProductValue::class);
     }
 
-    //    /**
-    //     * @return ProductValue[] Returns an array of ProductValue objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('p')
-    //            ->andWhere('p.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('p.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    public function findByImportHash(string $importHash): ?ProductValue
+    {
+        $qb = $this->createQueryBuilder('pv');
 
-    //    public function findOneBySomeField($value): ?ProductValue
-    //    {
-    //        return $this->createQueryBuilder('p')
-    //            ->andWhere('p.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+        $qb->where('pv.importHash = :importHash')
+            ->setParameter('importHash', $importHash)
+            ->setMaxResults(1);
+
+        return $qb->getQuery()->getOneOrNullResult();
+    }
+
+    public function save(ProductValue $productValue): ProductValue
+    {
+        $this->getEntityManager()->persist($productValue);
+        $this->getEntityManager()->flush();
+    }
 }

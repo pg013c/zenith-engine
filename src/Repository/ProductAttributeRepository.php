@@ -8,9 +8,6 @@ use App\Entity\ProductAttribute;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
-/**
- * @extends ServiceEntityRepository<ProductAttribute>
- */
 class ProductAttributeRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
@@ -18,28 +15,42 @@ class ProductAttributeRepository extends ServiceEntityRepository
         parent::__construct($registry, ProductAttribute::class);
     }
 
-    //    /**
-    //     * @return ProductAttribute[] Returns an array of ProductAttribute objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('p')
-    //            ->andWhere('p.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('p.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    public function findOneByImportHash(string $importHash): ?ProductAttribute
+    {
+        $qb = $this->createQueryBuilder('pa');
 
-    //    public function findOneBySomeField($value): ?ProductAttribute
-    //    {
-    //        return $this->createQueryBuilder('p')
-    //            ->andWhere('p.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+        $qb->where('pa.importHash = :importHash')
+            ->setParameter('importHash', $importHash)
+            ->setMaxResults(1);
+
+        return $qb->getQuery()->getOneOrNullResult();
+    }
+
+    public function findOneByImportId(int $importId): ?ProductAttribute
+    {
+        $qb = $this->createQueryBuilder('pa');
+
+        $qb->where('pa.importId = :importId')
+            ->setParameter('importId', $importId)
+            ->setMaxResults(1);
+
+        return $qb->getQuery()->getOneOrNullResult();
+    }
+
+    public function findOneById(int $id): ?ProductAttribute
+    {
+        $qb = $this->createQueryBuilder('pa');
+
+        $qb->where('pa.id = :id')
+            ->setParameter('id', $id)
+            ->setMaxResults(1);
+
+        return $qb->getQuery()->getOneOrNullResult();
+    }
+
+    public function save(ProductAttribute $productAttribute): ProductAttribute
+    {
+        $this->getEntityManager()->persist($productAttribute);
+        $this->getEntityManager()->flush();
+    }
 }
