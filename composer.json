@@ -1,8 +1,11 @@
 {
-    "type": "project",
-    "license": "proprietary",
-    "minimum-stability": "stable",
+    "name": "pg013c/zenith-engine",
+    "description": "A reusable engine for ecommerce platforms",
+    "type": "symfony-bundle",
+    "license": "MIT",
+    "minimum-stability": "dev",
     "prefer-stable": true,
+    "version": "v0.0.1",
     "require": {
         "php": ">=8.2",
         "ext-ctype": "*",
@@ -37,12 +40,12 @@
     },
     "autoload": {
         "psr-4": {
-            "App\\": "src/"
+            "Pg013c\\ZenithEngine\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "App\\Tests\\": "tests/"
+            "Pg013c\\ZenithEngine\\Tests\\": "tests/"
         }
     },
     "replace": {
